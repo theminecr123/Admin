@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="TextView"
-                    android:textSize="16dp" />
+                    android:textSize="12dp" />
 
                 <TextView
                     android:id="@+id/txtUID_report"
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="TextView"
-                    android:textSize="16dp" />
+                    android:textSize="12dp" />
 
                 <TextView
                     android:id="@+id/txtUID_beReported"
@@ -112,11 +112,22 @@
             android:background="@drawable/border_text">
 
             <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Status:"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/txtMessage"
                 android:layout_width="match_parent"
                 android:layout_height="266dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:paddingTop="15dp"
                 android:text="Message"
                 android:textAlignment="textStart"
                 android:textSize="30dp"

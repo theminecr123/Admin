@@ -1,8 +1,10 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.example.myapplication.databinding.ActivityDetailBinding
 import com.example.myapplication.databinding.ActivityLoginBinding
@@ -38,6 +40,29 @@ class DetailActivity : AppCompatActivity() {
         val timestamp = intent.getLongExtra("timestamp",0)
         val status = intent.getStringExtra("status")
 
+        when (status) {
+            "doing" -> {
+                binding.txtStatus.setTextColor(Color.GREEN)
+                binding.txtStatus.text = "DOING"
+            }
+            "reported" -> {
+                binding.txtStatus.setTextColor(Color.RED)
+                binding.txtStatus.text = "REPORTED"
+            }
+            "denied"->{
+                binding.txtStatus.setTextColor(Color.GRAY)
+                binding.txtStatus.text = "DENIED"
+                binding.btnConfirm.visibility = View.GONE
+                binding.btnDeny.visibility =View.GONE
+            }
+            "restored"->{
+                binding.txtStatus.setTextColor(Color.BLUE)
+                binding.txtStatus.text = "RESTORED"
+                binding.btnConfirm.visibility =View.GONE
+                binding.btnDeny.visibility =View.GONE
+            }
+        }
+
 
 
 
@@ -68,7 +93,10 @@ class DetailActivity : AppCompatActivity() {
             }
         }
         binding.btnDeny.setOnClickListener{
-            onBackPressed()
+            denyReport(roomID!!,messageId!!)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+
         }
 
 
@@ -132,9 +160,7 @@ class DetailActivity : AppCompatActivity() {
                 reportsRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (roomSnapshot in dataSnapshot.children) {
-                            val roomID = roomSnapshot.key
                             for (messageSnapshot in roomSnapshot.children) {
-                                val messageID = messageSnapshot.key
                                 val status = messageSnapshot.child("status").value as String?
 
                                 if(status == "doing"){
@@ -191,8 +217,42 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    fun denyReport(roomID: String, messageID: String) {
+        val database = FirebaseDatabase.getInstance()
+        val reportRef = database.getReference("reports").child(roomID).child(messageID)
+
+        reportRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val status = snapshot.child("status").value as? String
+                    if (status == "doing") {
+                        // Trạng thái báo cáo là 'doing', tiến hành cập nhật thành 'denied'
+                        reportRef.child("status").setValue("denied").addOnSuccessListener {
+                            Toast.makeText(this@DetailActivity, "Report status updated to denied", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(this@DetailActivity, "Failed to update report status", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        startActivity( Intent(this@DetailActivity,HistoryActivity::class.java))
+
+
+                    }
+                } else {
+                    Toast.makeText(this@DetailActivity, "Report does not exist", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@DetailActivity, "Error accessing the database", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+
     override fun onBackPressed() {
         super.onBackPressed()
+        finish()
 
     }
 }

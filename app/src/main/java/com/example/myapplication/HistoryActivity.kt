@@ -39,7 +39,10 @@ class HistoryActivity : AppCompatActivity() {
             startActivity(Intent(this@HistoryActivity,MainActivity::class.java))
             finish()
         }
-
+        binding.btnAnalyst.setOnClickListener{
+            val intent = Intent(this@HistoryActivity, AnalystActivity::class.java)
+            startActivity(intent)
+        }
         // Initialize Firebase Realtime Database reference
         val reportsRef = FirebaseDatabase.getInstance().getReference("reports")
 
@@ -60,7 +63,7 @@ class HistoryActivity : AppCompatActivity() {
                         val timestamp = messageMap["timestamp"] as Long
                         val content = messageMap["content"] as String
 
-                        if(status=="reported"|| status =="restored"){
+                        if(status=="reported"|| status =="restored" || status == "denied"){
                             val reportedMessage = reportData(roomID,messageID, reportedByUid, reportedUserUid, content, timestamp,status)
                             reportedMessagesList.add(reportedMessage)
                             if(status == "restored"){

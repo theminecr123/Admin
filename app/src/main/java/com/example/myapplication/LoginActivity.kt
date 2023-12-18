@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener{
             val username = binding.loginAdmin.text.toString()
             val password = binding.loginPassword.text.toString()
-            databaseReferences = FirebaseDatabase.getInstance().getReference("admin")
+            databaseReferences = FirebaseDatabase.getInstance().reference.child("admin")
             databaseReferences.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(object :
                 ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {

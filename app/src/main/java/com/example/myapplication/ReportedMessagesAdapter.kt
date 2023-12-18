@@ -2,12 +2,16 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class ReportedMessagesAdapter (var ds:List<reportData>): RecyclerView.Adapter<ReportedMessagesAdapter.ViewHolder>(){
@@ -15,6 +19,8 @@ class ReportedMessagesAdapter (var ds:List<reportData>): RecyclerView.Adapter<Re
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvSTT: TextView = itemView.findViewById(R.id.tvSTT)
         val messageTextView: TextView = itemView.findViewById(R.id.message)
+        val status: TextView = itemView.findViewById(R.id.status)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,13 +38,36 @@ class ReportedMessagesAdapter (var ds:List<reportData>): RecyclerView.Adapter<Re
         val message = ds[position]
         holder.tvSTT.text = "${position+1}"
         holder.messageTextView.text = "${message.message}"
+        holder.status.text = "status: ${message.status}"
 
-        if (message.status == "restored") {
-            holder.itemView.isEnabled = false
-            holder.itemView.alpha = 0.5f // Đặt độ mờ cho itemView bị disable
-        } else {
-            holder.itemView.isEnabled = true
-            holder.itemView.alpha = 1.0f // Đặt độ mờ cho itemView bình thường
+        when (message.status) {
+            "doing" ->{
+                holder.itemView.findViewById<LinearLayout>(R.id.layoutMessage).setBackgroundResource(R.drawable.doing_border)
+                holder.itemView.findViewById<TextView>(R.id.tvSTT).setBackgroundResource(R.drawable.doing_border)
+                holder.itemView.findViewById<TextView>(R.id.txtDetail).setTextColor(Color.parseColor("#06d6a0"))
+                holder.itemView.findViewById<TextView>(R.id.status).setTextColor(Color.parseColor("#06d6a0"))
+            }
+            "restored" -> {
+                holder.itemView.findViewById<LinearLayout>(R.id.layoutMessage).setBackgroundResource(R.drawable.restored_border)
+                holder.itemView.findViewById<TextView>(R.id.tvSTT).setBackgroundResource(R.drawable.restored_border)
+                holder.itemView.findViewById<TextView>(R.id.txtDetail).setTextColor(Color.parseColor("#ffd166"))
+                holder.itemView.findViewById<TextView>(R.id.status).setTextColor(Color.parseColor("#ffd166"))
+
+            }
+            "denied" -> {
+                holder.itemView.findViewById<LinearLayout>(R.id.layoutMessage).setBackgroundResource(R.drawable.denied_border)
+                holder.itemView.findViewById<TextView>(R.id.tvSTT).setBackgroundResource(R.drawable.denied_border)
+                holder.itemView.findViewById<TextView>(R.id.txtDetail).setTextColor(Color.parseColor("#c5c9c7"))
+                holder.itemView.findViewById<TextView>(R.id.status).setTextColor(Color.parseColor("#c5c9c7"))
+
+            }
+            "reported" -> {
+                holder.itemView.findViewById<LinearLayout>(R.id.layoutMessage).setBackgroundResource(R.drawable.reported_border)
+                holder.itemView.findViewById<TextView>(R.id.tvSTT).setBackgroundResource(R.drawable.reported_border)
+                holder.itemView.findViewById<TextView>(R.id.txtDetail).setTextColor(Color.parseColor("#ff6b6b"))
+                holder.itemView.findViewById<TextView>(R.id.status).setTextColor(Color.parseColor("#ff6b6b"))
+
+            }
         }
 
 

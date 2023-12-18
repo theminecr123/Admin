@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, HistoryActivity::class.java)
             startActivity(intent)
         }
+         binding.btnAnalyst.setOnClickListener{
+                    val intent = Intent(this@MainActivity, AnalystActivity::class.java)
+                    startActivity(intent)
+         }
 
         // Initialize Firebase Realtime Database reference
         val reportsRef = FirebaseDatabase.getInstance().getReference("reports")

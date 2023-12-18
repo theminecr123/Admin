@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/spinnerChatType"
+        android:layout_width="match_parent"
+        android:background="@color/purple_200"
+        android:textSize="25sp"
+        android:layout_height="68dp" />
+
+    <Spinner
+        android:id="@+id/spinnerYear"
+        android:layout_width="match_parent"
+        android:textSize="25sp"
+        android:layout_height="49dp" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
