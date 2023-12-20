@@ -13,13 +13,16 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".AnalystActivity"
             android:exported="false" />
         <activity
             android:name=".StatisticsActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".RevenueActivity"
             android:exported="false" />
         <activity
             android:name=".HistoryActivity"
@@ -34,7 +37,7 @@
             android:name=".RAActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
